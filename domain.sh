@@ -39,7 +39,7 @@ NUM_OF_DAYS=365
 echo "Generating Certificate Signing Request (device.csr)"
 openssl req -new -newkey rsa:2048 -sha256 -nodes $KEY_OPT device.key -subj "$SUBJECT" -out device.csr
 
-cmd < v3.ext | sed s/%%DOMAIN%%/"$COMMON_NAME"/g > /tmp/__v3.ext
+cat v3.ext | sed s/%%DOMAIN%%/"$COMMON_NAME"/g > /tmp/__v3.ext
 echo "Generating domain certificate"
 openssl x509 -req -in device.csr -CA "$ROOT_CA_PEM_PATH" -CAkey "$ROOT_CA_KEY_PATH" -CAcreateserial -out device.crt -days "$NUM_OF_DAYS" -sha256 -extfile /tmp/__v3.ext
 
